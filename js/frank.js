@@ -10,18 +10,17 @@ document.body.appendChild(renderer.domElement);
 var options = {
     grids: {
         rect: false,
-        radi: true,
-        axes: true
+        radi: false,
+        axes: false
     },
     lights: {
         sun: true,
         dev: false
     },
     orbits: {
-        sun: 0,
-        cam: 0
+        sun: [0, true],//[deg/s, enabled]
+        cam: [0, true]
     },
-    camorbit: false,
     rez: '2k'
 };
 
@@ -151,9 +150,12 @@ clouds = new THREE.Mesh(cloudgeo, cloudmat);
 const grid = new THREE.GridHelper(10, 10);
 const axes = new THREE.AxesHelper(5);
 const pgrid = new THREE.PolarGridHelper(10, 10, 5, 64);
-if (options.grids.radi) scene.add(pgrid);
-if (options.grids.rect) scene.add(grid);
-if (options.grids.axes) scene.add(axes);
+function updateGrid() {
+    if (options.grids.radi) scene.add(pgrid); else scene.remove(pgrid);
+    if (options.grids.rect) scene.add(grid); else scene.remove(grid);
+    if (options.grids.axes) scene.add(axes); else scene.remove(axes);
+}
+updateGrid();
 
 //add objects to scene
 scene.add(earth);
@@ -188,10 +190,10 @@ let moon = new THREE.Mesh(moongeo, moonmat);
 let moonorbit = 0;
 let cameraorbit = 0;
 scene.add(moon);
-moon.position.set(0, 0, 4);
 
-//add some test map pins
-addMapPin(55.751948, 37.617478, 0xff0000, earth, 3);
+orbit(earth, moon, 5, 0, moonorbit);
+orbit(earth, camera, 7, 3, cameraorbit);
+
 
 //render animation frames
 function animate(elapsed) {
@@ -199,13 +201,17 @@ function animate(elapsed) {
     requestAnimationFrame(animate);
 
     //orbit the moon clockwise at 1/100 degree per frame
-    moonorbit += options.orbits.sun / 120;
-    orbit(earth, moon, 5, 0, -moonorbit);
+    //if sun orbit is enabled and !== 0
+    if (options.orbits.sun[0] && options.orbits.sun[1]) {
+        moonorbit += options.orbits.sun[0] / 120;
+        orbit(earth, moon, 5, 0, moonorbit);
+    }
 
     //orbit the camera counterclockwise at 1/1000 degree per frame
-    cameraorbit += options.orbits.cam / 120;
-
-    orbit(earth, camera, 7, 3, cameraorbit);
+    if (options.orbits.cam[0] && options.orbits.cam[1]) {
+        cameraorbit += options.orbits.cam[0] / 120;
+        orbit(earth, camera, 7, 3, cameraorbit);
+    }
 
 
     //keep the light on the moon
@@ -218,4 +224,5 @@ function animate(elapsed) {
     camera.lookAt(earth.position.x, earth.position.y, earth.position.z);
     renderer.render(scene, camera);
 }
+
 animate();

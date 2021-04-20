@@ -1,12 +1,12 @@
 //change orbit speed on slider move
 document.getElementById('moonspeed').addEventListener('input', (ev) => {
     document.getElementById('moonlabel').innerText = document.getElementById('moonspeed').value;
-    options.orbits.sun = document.getElementById('moonspeed').value;
+    options.orbits.sun[0] = document.getElementById('moonspeed').value;
 });
 
 document.getElementById('camspeed').addEventListener('input', (ev) => {
     document.getElementById('camlabel').innerText = document.getElementById('camspeed').value;
-    options.orbits.cam = document.getElementById('camspeed').value;
+    options.orbits.cam[0] = document.getElementById('camspeed').value;
 });
 
 //set texture resolution on dropdown close
@@ -40,8 +40,8 @@ document.getElementById('reload').addEventListener('click', (ev) => {
     options = {
         grids: {
             rect: false,
-            radi: true,
-            axes: true
+            radi: false,
+            axes: false
         },
         lights: {
             sun: true,
@@ -111,5 +111,24 @@ document.getElementById('storypos').addEventListener('change', (ev) => {
         case 'top':
             document.getElementById('story').style = "width: 40vw; height: 25vh; left: 30vw; bottom: 5px;";
 
+    }
+});
+
+document.getElementById('storypos').addEventListener('change', () => {
+    switch (document.getElementById('storypos').value) {
+        case 'top':
+            console.log('updated storybox');
+            document.getElementById('story').style = "width:80vw; height:25vh; left:10vw; top:5px;";
+            break;
+
+        case 'bottom':
+            console.log('updated storybox');
+            document.getElementById('story').style = "width: 40vw; height: 25vh; left: 30vw; bottom: 5px;";
+            break;
+
+        default:
+            console.log('wtf?');
+            console.log(document.getElementById('storypos'));
+            break;
     }
 });

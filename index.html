@@ -8,10 +8,10 @@
 </head>
 
 <body>
-    <div class='console' id='log'>
+    <div hidden class='console' id='log'>
         <div class='closebutton' onclick="toggleHide('log', 'showConsole')">×</div>
     </div>
-    <div class='controls' id='options'>
+    <div hidden class='controls' id='options'>
         <div class="closebutton" onclick="toggleHide('options', 'showOptions')">×</div>
         <h1 style="color: aqua;">Controls</h1>
         <label>
@@ -24,14 +24,30 @@
         </label>
         <br />
         <label>
-            Moon Speed (°/s):
+            Moon Speed:
             <input type="range" min="-5" max="5" step="0.01" id="moonspeed">
             <div id='moonlabel' style="display: inline;">0</div>
         </label>
         <br />
-        <label>Camera Speed (°/s):
+        <label>Camera Speed:
             <input type="range" min="-5" max="5" step="0.1" id="camspeed">
             <div id='camlabel' style="display: inline;">0</div>
+        </label>
+        <p></p>
+        <label>
+            Disable moon orbit
+            <input type="checkbox" id='moonorbit' onchange="
+                let e = document.getElementById('moonorbit')
+                options.orbits.sun[1] = !e.checked;
+            ">
+        </label>
+        <br />
+        <label>
+            Disable camera orbit
+            <input type="checkbox" id="camorbit" onchange="
+                let e = document.getElementById('camorbit')
+                options.orbits.cam[1] = !e.checked;
+            ">
         </label>
         <button class='apply' id='reload'>Reload sim</button>
     </div>
@@ -41,24 +57,35 @@
     left: 30vw;
     bottom: 5px;">
         <div class='closebutton' onclick="toggleHide('story', 'showStory')">×</div>
+        <img class="portrait">
+        <div class="dialog">
+
+        </div>
     </div>
     <div class='windowchooser' style="width: 25vw; height: 25vh;">
+        <div class="minimizebutton" style="left: 5px; background-color: blue;">⚙</div>
         <div class="minimizebutton" id='minimizebutton' onclick="
             let e = document.getElementById('choosercontent');
             let ex = e.parentElement;
             e.hidden = !e.hidden;
             ex.style.height = (ex.style.height === '3vh')?'25vh':'3vh';
             ex.style.width = (ex.style.width === '5vw')?'25vw':'5vw';
+            if (e.hidden) {
+                ex.style.backgroundColor = 'blue'
+            }
+            else {
+                ex.style.backgroundColor = 'black'
+            }
             document.getElementById('minimizebutton').innerText = (document.getElementById('minimizebutton').innerText === '🗖')?'🗕':'🗖';
             ">🗕</div>
         <div id='choosercontent'>
             <h1 style="color: aqua;">Show Windows</h1>
             <label>
-                <input type="checkbox" id='showOptions' checked>
+                <input type="checkbox" id='showOptions'>
                 Options
             </label>
             <label>
-                <input type="checkbox" id='showConsole' checked>
+                <input type="checkbox" id='showConsole'>
                 Console
             </label>
             <label>
@@ -66,12 +93,47 @@
                 Story
             </label>
             <p></p>
-            <label style="margin: 5px;" id='storypos'>
-                Story text align:
-                <select>
+            <label style="margin: 5px;">
+                Story box position:
+                <select id='storypos'>
                     <option value='bottom'>Bottom</option>
                     <option value='top'>Top</option>
                 </select>
+            </label>
+            <br />
+            <p></p>
+            <b style=" 
+                color: aqua;
+                font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+                padding: 5px;">
+                Grids
+            </b>
+            <br />
+            <label>
+                <input type="checkbox" id='sqr' onchange="
+                        let e = document.getElementById('sqr');
+                        options.grids.rect = e.checked;
+                        updateGrid();
+                    ">
+                Square Grid
+            </label>
+            <br />
+            <label>
+                <input type="checkbox" id='rad' onchange="
+                        let e = document.getElementById('rad');
+                        options.grids.radi = e.checked;
+                        updateGrid();
+                    ">
+                Radian Grid
+            </label>
+            <br />
+            <label>
+                <input type="checkbox" id='axes' onchange="
+                        let e = document.getElementById('axes');
+                        options.grids.axes = e.checked;
+                        updateGrid();
+                    ">
+                Axes
             </label>
         </div>
     </div>

@@ -48,6 +48,8 @@
     overflow-y: scroll;
     overflow-wrap: normal;
     overflow-x: auto;
+
+    align-self: center;
 }
 
 .windowchooser {
@@ -56,6 +58,9 @@
     right: 5px;
     bottom: 5px;
 
+    transition: all;
+    transition-duration: 1s;
+    transition-timing-function: cubic-bezier(0.455, 0.03, 0.515, 0.955);
 
     background-color: black;
     border: 2px solid blue;
@@ -63,6 +68,7 @@
 }
 
 .closebutton {
+    z-index: 3;
     width: 20px;
     height: 20px;
     margin: 0px;
@@ -81,6 +87,7 @@
 }
 
 .minimizebutton {
+    z-index: 3;
     width: 20px;
     height: 20px;
     margin: 0px;
@@ -98,16 +105,40 @@
     font-family: monospace;
 }
 
+img.portrait {
+    /*width: 20vh;
+    height: 20vh;*/
+    position: absolute;
+    margin: 5px;
+    border: 2px solid white;
+    top: 0px;
+    left: 0px;
+    padding: 2px;
+}
+
+.dialog {
+    /*width: 25vw;
+    height: 20vh;*/
+    border: 2px solid white;
+    right: 0px;
+    top: 0px;
+    position: absolute;
+    padding: 5px;
+}
+
 /*default CSS/HTML elements*/
 body {
     margin: 0px;
     background-color: black;
     position: relative;
     color: white;
+    overflow: hidden;
 }
+
 h1 {
     text-align: center;
     width: 100%;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 
 }
 
