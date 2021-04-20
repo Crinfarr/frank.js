@@ -15,19 +15,22 @@
 <body>
     <script src='js/three.js'></script>
     <script>
+        //setup... everything
         const scene = new THREE.Scene();
         const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 
         //set camera position
         camera.position.set(3, 3, 5)
 
+        //apply and create renderer
         const renderer = new THREE.WebGLRenderer();
         renderer.setSize(window.innerWidth, window.innerHeight);
         document.body.appendChild(renderer.domElement);
-        var earth;
+
+
         let txtloader = new THREE.TextureLoader();
         let earthmat = new THREE.MeshStandardMaterial({ color: 0xffffff })
-        let cloudmat = new THREE.MeshStandardMaterial({ color: 0xffffff, opacity: 1 })
+        let cloudmat = new THREE.MeshStandardMaterial({ color: 0xffffff, opacity: 1, roughness: 0.325 })
         let earthgeo = new THREE.SphereGeometry(2, 30, 30);
         //layer 1 earth loads: map -> bumps -> roughness -> emissiveness
         txtloader.load('res/earth/earthmap1k.jpg', (texture) => {
@@ -84,19 +87,33 @@
         let l = new THREE.PointLight(0xfffffb, 0.8, 0, 20);
         l.position.set(camera.position.x + 2, camera.position.y + 2, camera.position.z + 2);
         scene.add(l);
-        animate();
+
 
         earth.rotation.y = 0.0000041781 * new Date().getTime();
+
+        let cloudspeed = 0.0005;
+        setInterval(() => {
+            if (Math.round(Math.random())) {
+                console.log('decreased cloud speed');
+                cloudspeed -= 0.0001;
+            }
+            else {
+                console.log('increased cloud speed');
+                cloudspeed += 0.0001;
+            }
+        }, 1000)
 
         function animate(elapsed) {
             requestAnimationFrame(animate);
 
             earth.rotation.y += 0.00041781;
-            clouds.rotation.y += 0.0005;
+            clouds.rotation.y += cloudspeed
             //console.log(earth.rotation.y)//tells how much the earth has turned, should take 23.9x hours to fully turn
             camera.lookAt(earth.position.x, earth.position.y, earth.position.z);
             renderer.render(scene, camera);
         }
+
+        animate();
     </script>
 </body>
 
