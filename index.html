@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Frank</title>
+    <style>
+        body {
+            margin: 0px;
+            background-color: black;
+        }
+    </style>
+</head>
+
+<body>
+    <script src='js/three.js'></script>
+    <script>
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+
+        //set camera position
+        camera.position.set(3, 3, 5)
+
+        const renderer = new THREE.WebGLRenderer();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(renderer.domElement);
+        var earth;
+        let txtloader = new THREE.TextureLoader();
+        let earthmat = new THREE.MeshStandardMaterial({ color: 0xffffff })
+        let cloudmat = new THREE.MeshStandardMaterial({ color: 0xffffff, opacity: 1 })
+        let earthgeo = new THREE.SphereGeometry(2, 30, 30);
+        //layer 1 earth loads: map -> bumps -> roughness -> emissiveness
+        txtloader.load('res/earth/earthmap1k.jpg', (texture) => {
+            //set texture
+            earth.material.map = texture;
+            earth.material.needsUpdate = true;
+            console.log('loaded earth texture and attempted apply');
+
+            txtloader.load('res/earth/earthbump1k.jpg', (bumpmap) => {
+                //set displace/bump maps
+                earthmat.bumpMap = bumpmap;
+                earthmat.bumpScale = 0.05;
+                earthmat.displacementMap = bumpmap;
+                earthmat.displacementScale = 0.05;
+                earth.material.needsUpdate = true;
+                console.log('loaded bump map and attempted apply')
+
+                txtloader.load('res/earth/earthspec1k.jpg', (specmap) => {
+                    //set roughness map
+                    earthmat.roughnessMap = specmap;
+                    earth.material.needsUpdate = true;
+                    console.log('loaded reflection map and attempted apply')
+
+                    txtloader.load('res/earth/earthlights1k.jpg', (emap) => {
+                        //set light map (doesn't really work yet)
+                        earthmat.lightmap = emap;
+                        earthmat.lightMapIntensity = 20;
+                        earth.material.needsUpdate = true;
+                    })
+                })
+            })
+        })
+
+        let cloudgeo = new THREE.SphereGeometry(2.1, 30, 30);
+        txtloader.load('res/earth/clouds/earthcloudmap.jpg', (texture) => {
+            clouds.material.map = texture;
+            clouds.material.needsUpdate = true;
+            console.log('loaded cloud textures and attempted overlay')
+
+            txtloader.load('res/earth/clouds/earthcloudmaptrans.jpg', (alphamap) => {
+                clouds.material.alphaMap = alphamap;
+                clouds.material.transparent = true;
+                clouds.material.needsUpdate = true;
+                console.log('loaded cloud transparency and attempted overlay')
+            })
+        })
+
+        earth = new THREE.Mesh(earthgeo, earthmat);
+        clouds = new THREE.Mesh(cloudgeo, cloudmat);
+        scene.add(earth);
+        scene.add(clouds);
+        scene.add(new THREE.HemisphereLightHelper(new THREE.HemisphereLight(0xffffFF, 0x080820, 100), 10));
+
+        let l = new THREE.PointLight(0xfffffb, 0.8, 0, 20);
+        l.position.set(camera.position.x + 2, camera.position.y + 2, camera.position.z + 2);
+        scene.add(l);
+        animate();
+
+        earth.rotation.y = 0.0000041781 * new Date().getTime();
+
+        function animate(elapsed) {
+            requestAnimationFrame(animate);
+
+            earth.rotation.y += 0.00041781;
+            clouds.rotation.y += 0.0005;
+            //console.log(earth.rotation.y)//tells how much the earth has turned, should take 23.9x hours to fully turn
+            camera.lookAt(earth.position.x, earth.position.y, earth.position.z);
+            renderer.render(scene, camera);
+        }
+    </script>
+</body>
+
+</html>
