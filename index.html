@@ -4,17 +4,72 @@
 <head>
     <meta charset="utf-8">
     <title>Frank</title>
-    <style>
-        body {
-            margin: 0px;
-            background-color: black;
-        }
-    </style>
+    <link href="css/main.css" rel="stylesheet">
 </head>
 
 <body>
+    <div class='console' id='log'>
+        <div class='closebutton' onclick="toggleHide('log', 'showConsole')">×</div>
+    </div>
+    <div class='controls' id='options'>
+        <div class="closebutton" onclick="toggleHide('options', 'showOptions')">×</div>
+        <h1 style="color: aqua;">Controls</h1>
+        <label>
+            Texture Resolution:
+            <select name='trez' id='trez'>
+                <option value="2k" selected>2K textures</option>
+                <option value="4k">4k textures</option>
+                <option value="8k">8k textures</option>
+            </select>
+        </label>
+        <br />
+        <label>
+            Moon Speed (°/s):
+            <input type="range" min="-5" max="5" step="0.01" id="moonspeed">
+            <div id='moonlabel' style="display: inline;">0</div>
+        </label>
+        <br />
+        <label>Camera Speed (°/s):
+            <input type="range" min="-5" max="5" step="0.1" id="camspeed">
+            <div id='camlabel' style="display: inline;">0</div>
+        </label>
+        <button class='apply' id='reload'>Reload sim</button>
+    </div>
+    <div class='story' id='story' style="
+    width: 40vw;
+    height: 25vh;
+    left: 30vw;
+    bottom: 5px;">
+        <div class='closebutton' onclick="toggleHide('story', 'showStory')">×</div>
+    </div>
+    <div class='windowchooser'>
+        <script src='js/three_ascii.js'></script>
+        <div class="minimizebutton">🗕</div>
+        <h1 style="color: aqua;">Show Windows</h1>
+        <label>
+            <input type="checkbox" id='showOptions' checked>
+            Options
+        </label>
+        <label>
+            <input type="checkbox" id='showConsole' checked>
+            Console
+        </label>
+        <label>
+            <input type="checkbox" id='showStory' checked>
+            Story
+        </label>
+        <p></p>
+        <label style="margin: 5px;" id='storypos'>
+            Story text align:
+            <select>
+                <option value='bottom'>Bottom</option>
+                <option value='top'>Top</option>
+            </select>
+        </label>
+    </div>
     <script src='js/three.js'></script>
     <script src='js/frank.js'></script>
+    <script src='js/ui.js'></script>
 </body>
 
 </html>

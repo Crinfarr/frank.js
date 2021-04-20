@@ -1,20 +1,66 @@
 //setup... everything
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+const renderer = new THREE.WebGLRenderer();
 
-//TODO: impliment options
+renderer.setSize(window.innerWidth, window.innerHeight);
+document.body.appendChild(renderer.domElement);
+
+
 var options = {
     grids: {
         rect: false,
-        radi: true
+        radi: true,
+        axes: true
     },
     lights: {
         sun: true,
         dev: false
     },
-    rez: '4k'
+    orbits: {
+        sun: 0,
+        cam: 0
+    },
+    camorbit: false,
+    rez: '2k'
 };
 
+function addMapPin(lat, long, color, globe, length) {
+    let mappin = new THREE.LineBasicMaterial({
+        color: color
+    });
+    let r = length;//length of the pin
+    let x, y, z;//coordinates of the point
+    let cx, cy, cz;//coordinates of the center
+    //center coordinates
+    cx = globe.position.x;
+    cy = globe.position.y;
+    cz = globe.position.z;
+
+    //do some math:
+    //  longitude is measured in degrees from the prime meridian and caps at +-180
+    //  latitude is measured in degrees from the equator and caps at +-90
+    //  t/f the best way to measure them is by using a sin/cos operator on them with a set radius,
+    //  in order to find the point where it would lie on the outside of a sphere of radius R.
+    x = r * Math.sin(long + 360);
+    y = r * Math.sin(lat + 180);
+    z = r * Math.cos(long + 360);
+    console.log(x, y, z, lat, long);
+
+    let points = [
+        new THREE.Vector3(cx, cy, cz),
+        new THREE.Vector3(Math.sign(long) * x, Math.sign(lat) * y, ((Math.abs(long) > 90) ? 1 : -1) * z)
+    ];
+
+    console.log(Math.sign(lat) * x, Math.sign(long) * y, z);
+
+    let geo = new THREE.BufferGeometry().setFromPoints(points);
+    let line = new THREE.Line(geo, mappin);
+    scene.add(line);
+}
+
+//set an object at a radius from an object at a specific relative angle
+//can be used to do things like multipendulums IN THEORY
 function orbit(center, orbiter, distance, height, angle) {
     let cpos = [center.position.x, center.position.y, center.position.z];
     let dx = distance * Math.sin(angle);
@@ -25,11 +71,6 @@ function orbit(center, orbiter, distance, height, angle) {
 
 //set camera position
 camera.position.set(3, 3, 5);
-
-//apply and create renderer
-const renderer = new THREE.WebGLRenderer();
-renderer.setSize(window.innerWidth, window.innerHeight);
-document.body.appendChild(renderer.domElement);
 
 
 //create texture loader and eaerth/cloud mats
@@ -108,12 +149,15 @@ clouds = new THREE.Mesh(cloudgeo, cloudmat);
 //displays a static 3d grid of vairable square size for dev use
 //DISABLE THESE IN PROD
 const grid = new THREE.GridHelper(10, 10);
+const axes = new THREE.AxesHelper(5);
 const pgrid = new THREE.PolarGridHelper(10, 10, 5, 64);
 if (options.grids.radi) scene.add(pgrid);
 if (options.grids.rect) scene.add(grid);
+if (options.grids.axes) scene.add(axes);
 
 //add objects to scene
 scene.add(earth);
+earth.rotation.y = 300;
 scene.add(clouds);
 
 //add work light
@@ -125,44 +169,52 @@ let l = new THREE.PointLight(0xfffffb, 1, 0, 20);
 l.position.set(camera.position.x + 2, camera.position.y + 2, camera.position.z + 2);
 scene.add(l);
 
-
-earth.rotation.y = 0.0000041781 * new Date().getTime();
-clouds.rotation.y = 0.0000041781 * new Date().getTime();
-
-let cloudspeed = 0.00005;
+let cloudspeed = 0.0005;
 setInterval(() => {
-    if (Math.round(Math.random()) || cloudspeed >= 0.0001) {
-        cloudspeed -= 0.00001;
+    if (Math.round(Math.random()) || cloudspeed >= 0.001) {
+        cloudspeed -= 0.0001;
         // console.log('decreased cloud speed: ' + Math.round(cloudspeed * 10000) / 10000);
     }
     else {
-        cloudspeed += 0.00001;
+        cloudspeed += 0.0001;
         // console.log('increased cloud speed: ' + Math.round(cloudspeed * 10000) / 10000);
     }
 }, 1000);
 
+//setup orbiting moon
 let moongeo = new THREE.SphereGeometry(0.5, 20, 20);
 let moonmat = new THREE.MeshBasicMaterial({ color: 0xffffff });
 let moon = new THREE.Mesh(moongeo, moonmat);
 let moonorbit = 0;
 let cameraorbit = 0;
 scene.add(moon);
-moon.position.set(0, 4, 0);
+moon.position.set(0, 0, 4);
+
+//add some test map pins
+addMapPin(55.751948, 37.617478, 0xff0000, earth, 3);
 
 //render animation frames
 function animate(elapsed) {
+    //make sure the animation function is called every frame
     requestAnimationFrame(animate);
-    moonorbit += 0.01;
-    orbit(earth, moon, 5, 0, moonorbit);
-    cameraorbit += 0.001;
-    orbit(earth, camera, 7, 5, cameraorbit);
 
+    //orbit the moon clockwise at 1/100 degree per frame
+    moonorbit += options.orbits.sun / 120;
+    orbit(earth, moon, 5, 0, -moonorbit);
+
+    //orbit the camera counterclockwise at 1/1000 degree per frame
+    cameraorbit += options.orbits.cam / 120;
+
+    orbit(earth, camera, 7, 3, cameraorbit);
+
+
+    //keep the light on the moon
     l.position.set(moon.position.x, moon.position.y, moon.position.z);
 
-    //earth.rotation.y += 0.00041781;
+    //spin the clouds but only a little
     clouds.rotation.y += cloudspeed;
-    //tells how much the earth has turned
-    //console.log(earth.rotation.y)
+
+    //force the camera to look at the earth
     camera.lookAt(earth.position.x, earth.position.y, earth.position.z);
     renderer.render(scene, camera);
 }
