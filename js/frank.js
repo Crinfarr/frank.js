@@ -136,7 +136,7 @@ let earthgeo = new THREE.SphereGeometry(2, 30, 30);
 let cloudmat = new THREE.MeshStandardMaterial({
     color: 0xffffff,
     opacity: 1,
-    roughness: 0.325
+    roughness: 0.75
 });
 let cloudgeo = new THREE.SphereGeometry(2.05, 30, 30);
 

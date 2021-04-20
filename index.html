@@ -42,30 +42,38 @@
     bottom: 5px;">
         <div class='closebutton' onclick="toggleHide('story', 'showStory')">×</div>
     </div>
-    <div class='windowchooser'>
-        <script src='js/three_ascii.js'></script>
-        <div class="minimizebutton">🗕</div>
-        <h1 style="color: aqua;">Show Windows</h1>
-        <label>
-            <input type="checkbox" id='showOptions' checked>
-            Options
-        </label>
-        <label>
-            <input type="checkbox" id='showConsole' checked>
-            Console
-        </label>
-        <label>
-            <input type="checkbox" id='showStory' checked>
-            Story
-        </label>
-        <p></p>
-        <label style="margin: 5px;" id='storypos'>
-            Story text align:
-            <select>
-                <option value='bottom'>Bottom</option>
-                <option value='top'>Top</option>
-            </select>
-        </label>
+    <div class='windowchooser' style="width: 25vw; height: 25vh;">
+        <div class="minimizebutton" id='minimizebutton' onclick="
+            let e = document.getElementById('choosercontent');
+            let ex = e.parentElement;
+            e.hidden = !e.hidden;
+            ex.style.height = (ex.style.height === '3vh')?'25vh':'3vh';
+            ex.style.width = (ex.style.width === '5vw')?'25vw':'5vw';
+            document.getElementById('minimizebutton').innerText = (document.getElementById('minimizebutton').innerText === '🗖')?'🗕':'🗖';
+            ">🗕</div>
+        <div id='choosercontent'>
+            <h1 style="color: aqua;">Show Windows</h1>
+            <label>
+                <input type="checkbox" id='showOptions' checked>
+                Options
+            </label>
+            <label>
+                <input type="checkbox" id='showConsole' checked>
+                Console
+            </label>
+            <label>
+                <input type="checkbox" id='showStory' checked>
+                Story
+            </label>
+            <p></p>
+            <label style="margin: 5px;" id='storypos'>
+                Story text align:
+                <select>
+                    <option value='bottom'>Bottom</option>
+                    <option value='top'>Top</option>
+                </select>
+            </label>
+        </div>
     </div>
     <script src='js/three.js'></script>
     <script src='js/frank.js'></script>

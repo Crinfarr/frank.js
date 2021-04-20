@@ -113,7 +113,3 @@ document.getElementById('storypos').addEventListener('change', (ev) => {
 
     }
 });
-
-function togglemin(id, state) {
-
-}
