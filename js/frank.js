@@ -11,7 +11,8 @@ var options = {
     lights: {
         sun: true,
         dev: false
-    }
+    },
+    rez: '4k'
 };
 
 function orbit(center, orbiter, distance, height, angle) {
@@ -35,19 +36,19 @@ document.body.appendChild(renderer.domElement);
 let txtloader = new THREE.TextureLoader();
 function loadMats() {
     //load textures
-    txtloader.load('res/earth/8k_earth_daymap.jpg', (texture) => {
+    txtloader.load('res/earth/' + options.rez + '_earth_daymap.jpg', (texture) => {
         earth.material.map = texture;
         earth.material.needsUpdate = true;
         console.log('loaded earth texture');
     });
     //load normals
-    txtloader.load('res/earth/8k_earth_normal_map.jpg', (normal) => {
+    txtloader.load('res/earth/' + options.rez + '_earth_normal_map.jpg', (normal) => {
         earth.material.normalMap = normal;
         earth.material.needsUpdate = true;
         console.log('loaded earth normals');
     });
     //load rough maps
-    txtloader.load('res/earth/8k_earth_specular_map.jpg', (spec) => {
+    txtloader.load('res/earth/' + options.rez + '_earth_specular_map.jpg', (spec) => {
         earth.material.roughnessMap = spec;
         earth.material.roughness = 1;
         earth.material.needsUpdate = true;
@@ -55,26 +56,26 @@ function loadMats() {
     });
     //load light maps
     //(for night time)
-    txtloader.load('res/earth/8k_earth_nightmap.jpg', (lmap) => {
+    txtloader.load('res/earth/' + options.rez + '_earth_nightmap.jpg', (lmap) => {
         earth.material.emissiveMap = lmap;
         earth.material.emissiveIntensity = 0.6;
         earth.material.needsUpdate = true;
         console.log('loaded nightlight map');
     });
     //load cloud texture
-    txtloader.load('res/earth/clouds/8k_earth_clouds.jpg', (texture) => {
+    txtloader.load('res/earth/clouds/' + options.rez + '_earth_clouds.jpg', (texture) => {
         clouds.material.map = texture;
         clouds.material.needsUpdate = true;
         console.log('loaded cloud textures and attempted overlay');
     });
     //load cloud alpha map
-    txtloader.load('res/earth/clouds/8k_earth_clouds.jpg', (alphamap) => {
+    txtloader.load('res/earth/clouds/' + options.rez + '_earth_clouds.jpg', (alphamap) => {
         clouds.material.alphaMap = alphamap;
         clouds.material.transparent = true;
         clouds.material.needsUpdate = true;
         console.log('loaded cloud transparency and attempted apply');
     });
-    txtloader.load('res/stars/8k_stars_milky_way.jpg', (starmap) => {
+    txtloader.load('res/stars/' + options.rez + '_stars_milky_way.jpg', (starmap) => {
         let rt = new THREE.WebGLCubeRenderTarget(starmap.image.height);
         rt.fromEquirectangularTexture(renderer, starmap);
         scene.background = rt.texture;
@@ -141,11 +142,10 @@ setInterval(() => {
 }, 1000);
 
 let moongeo = new THREE.SphereGeometry(0.5, 20, 20);
-let moonmat = new THREE.MeshBasicMaterial({
-    color: 0xffffff
-});
+let moonmat = new THREE.MeshBasicMaterial({ color: 0xffffff });
 let moon = new THREE.Mesh(moongeo, moonmat);
 let moonorbit = 0;
+let cameraorbit = 0;
 scene.add(moon);
 moon.position.set(0, 4, 0);
 
@@ -154,10 +154,12 @@ function animate(elapsed) {
     requestAnimationFrame(animate);
     moonorbit += 0.01;
     orbit(earth, moon, 5, 0, moonorbit);
+    cameraorbit += 0.001;
+    orbit(earth, camera, 7, 5, cameraorbit);
 
     l.position.set(moon.position.x, moon.position.y, moon.position.z);
 
-    earth.rotation.y += 0.00041781;
+    //earth.rotation.y += 0.00041781;
     clouds.rotation.y += cloudspeed;
     //tells how much the earth has turned
     //console.log(earth.rotation.y)
