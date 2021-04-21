@@ -1,9 +1,8 @@
-//change orbit speed on slider move
+//change orbit speeds on slider move
 document.getElementById('moonspeed').addEventListener('input', (ev) => {
     document.getElementById('moonlabel').innerText = document.getElementById('moonspeed').value;
     options.orbits.sun[0] = document.getElementById('moonspeed').value;
 });
-
 document.getElementById('camspeed').addEventListener('input', (ev) => {
     document.getElementById('camlabel').innerText = document.getElementById('camspeed').value;
     options.orbits.cam[0] = document.getElementById('camspeed').value;
@@ -17,6 +16,7 @@ document.getElementById('trez').addEventListener('change', (ev) => {
 });
 
 //add console to div output
+//thanks stackoverflow
 (function () {
     if (!console) {
         console = {};
@@ -69,6 +69,7 @@ document.getElementById('reload').addEventListener('click', (ev) => {
     loadMats();
 });
 
+//add checkbox listeners
 document.getElementById('showOptions').addEventListener('change', (ev) => {
     let e = document.getElementById('showOptions');
     if (!e.checked) {
@@ -78,7 +79,6 @@ document.getElementById('showOptions').addEventListener('change', (ev) => {
         document.getElementById('options').hidden = false;
     }
 });
-
 document.getElementById('showConsole').addEventListener('change', (ev) => {
     let e = document.getElementById('showConsole');
     if (!e.checked) {
@@ -88,7 +88,6 @@ document.getElementById('showConsole').addEventListener('change', (ev) => {
         document.getElementById('log').hidden = false;
     }
 });
-
 document.getElementById('showStory').addEventListener('change', (ev) => {
     let e = document.getElementById('showStory');
     if (!e.checked) {
@@ -106,24 +105,19 @@ function toggleHide(element, box) {
     b.checked = !b.checked;
 }
 
-document.getElementById('storypos').addEventListener('change', (ev) => {
-    switch (document.getElementById('storypos')) {
-        case 'top':
-            document.getElementById('story').style = "width: 40vw; height: 25vh; left: 30vw; bottom: 5px;";
-
-    }
-});
-
+//add storybox resizing
 document.getElementById('storypos').addEventListener('change', () => {
     switch (document.getElementById('storypos').value) {
         case 'top':
             console.log('updated storybox');
-            document.getElementById('story').style = "width:80vw; height:25vh; left:10vw; top:5px;";
+            document.getElementById('story').style = "width:80vw; height:25vh; left:10vw; top:5px";
+            document.getElementById('dialog').style = 'width:65vw; height:22vh';
             break;
 
         case 'bottom':
             console.log('updated storybox');
-            document.getElementById('story').style = "width: 40vw; height: 25vh; left: 30vw; bottom: 5px;";
+            document.getElementById('story').style = "width: 40vw; height: 25vh; left: 30vw; bottom: 5px";
+            document.getElementById('dialog').style = 'width:25vw; height: 22vh';
             break;
 
         default:

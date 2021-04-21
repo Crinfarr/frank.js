@@ -16,6 +16,22 @@
     color: white;
 }
 
+.storycontrols {
+    position: absolute;
+    margin: 2px;
+    height: 1vw;
+}
+.storycontrols.forward {
+    position: inherit;
+    bottom: 5px;
+    right: 5px;
+}
+.storycontrols.backward {
+    position: inherit;
+    bottom: 5px;
+    left: 5px;
+}
+
 .console {
     /*dimensions and location*/
     width: 25vw;
@@ -45,9 +61,6 @@
     /*colors and style*/
     background-color: black;
     border: 2px solid white;
-    overflow-y: scroll;
-    overflow-wrap: normal;
-    overflow-x: auto;
 
     align-self: center;
 }
@@ -106,24 +119,29 @@
 }
 
 img.portrait {
-    /*width: 20vh;
-    height: 20vh;*/
+    width:20vh;
+    height:20vh;
     position: absolute;
     margin: 5px;
     border: 2px solid white;
     top: 0px;
     left: 0px;
-    padding: 2px;
+    padding: 0px;
+    object-fit: contain;
 }
 
 .dialog {
     /*width: 25vw;
     height: 20vh;*/
     border: 2px solid white;
-    right: 0px;
-    top: 0px;
+    right: 35px;
+    top: 5px;
     position: absolute;
     padding: 5px;
+
+    overflow-y: scroll;
+    overflow-wrap: normal;
+    overflow-x: auto;
 }
 
 /*default CSS/HTML elements*/

@@ -13,10 +13,10 @@ class story {
         this.line = 0;
     }
     nextLine() {
-        this.line++;
+        if (this.line < this.story.length - 1) this.line++;
     }
     previousLine() {
-        this.line++;
+        if (this.line > 0) this.line--;
     }
     getStoryLine(n = this.line) {
         return this.story[n];

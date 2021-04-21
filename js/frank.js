@@ -21,42 +21,18 @@ var options = {
         sun: [0, true],//[deg/s, enabled]
         cam: [0, true]
     },
+    camMotion: {
+        enabled: true,
+        target: {
+            x: 3,
+            y: 3,
+            z: 3
+        },
+        speed: 0.75 / 30
+    },
+    flashlight: true,
     rez: '2k'
 };
-
-function addMapPin(lat, long, color, globe, length) {
-    let mappin = new THREE.LineBasicMaterial({
-        color: color
-    });
-    let r = length;//length of the pin
-    let x, y, z;//coordinates of the point
-    let cx, cy, cz;//coordinates of the center
-    //center coordinates
-    cx = globe.position.x;
-    cy = globe.position.y;
-    cz = globe.position.z;
-
-    //do some math:
-    //  longitude is measured in degrees from the prime meridian and caps at +-180
-    //  latitude is measured in degrees from the equator and caps at +-90
-    //  t/f the best way to measure them is by using a sin/cos operator on them with a set radius,
-    //  in order to find the point where it would lie on the outside of a sphere of radius R.
-    x = r * Math.sin(long + 360);
-    y = r * Math.sin(lat + 180);
-    z = r * Math.cos(long + 360);
-    console.log(x, y, z, lat, long);
-
-    let points = [
-        new THREE.Vector3(cx, cy, cz),
-        new THREE.Vector3(Math.sign(long) * x, Math.sign(lat) * y, ((Math.abs(long) > 90) ? 1 : -1) * z)
-    ];
-
-    console.log(Math.sign(lat) * x, Math.sign(long) * y, z);
-
-    let geo = new THREE.BufferGeometry().setFromPoints(points);
-    let line = new THREE.Line(geo, mappin);
-    scene.add(line);
-}
 
 //set an object at a radius from an object at a specific relative angle
 //can be used to do things like multipendulums IN THEORY
@@ -169,16 +145,20 @@ scene.add(clouds);
 //add sun
 let l = new THREE.PointLight(0xfffffb, 1, 0, 20);
 l.position.set(camera.position.x + 2, camera.position.y + 2, camera.position.z + 2);
-scene.add(l);
+// scene.add(l);
+
+let f = new THREE.PointLight(0xffffff, 0.75, 0, 20);
+f.position.set(0, 0, 0);
+scene.add(f);
 
 let cloudspeed = 0.0005;
 setInterval(() => {
-    if (Math.round(Math.random()) || cloudspeed >= 0.001) {
-        cloudspeed -= 0.0001;
+    if (Math.round(Math.random())) {
+        cloudspeed -= 0.0002;
         // console.log('decreased cloud speed: ' + Math.round(cloudspeed * 10000) / 10000);
     }
     else {
-        cloudspeed += 0.0001;
+        cloudspeed += 0.0002;
         // console.log('increased cloud speed: ' + Math.round(cloudspeed * 10000) / 10000);
     }
 }, 1000);
@@ -189,7 +169,7 @@ let moonmat = new THREE.MeshBasicMaterial({ color: 0xffffff });
 let moon = new THREE.Mesh(moongeo, moonmat);
 let moonorbit = 0;
 let cameraorbit = 0;
-scene.add(moon);
+// scene.add(moon);
 
 orbit(earth, moon, 5, 0, moonorbit);
 orbit(earth, camera, 7, 3, cameraorbit);
@@ -219,6 +199,27 @@ function animate(elapsed) {
 
     //spin the clouds but only a little
     clouds.rotation.y += cloudspeed;
+
+    if (options.camMotion.enabled) {
+        if (Math.round(camera.position.x * 1000) / 1000 < options.camMotion.target.x) camera.position.x += options.camMotion.speed;
+        else if (Math.round(camera.position.x * 1000) / 1000 > options.camMotion.target.x) camera.position.x -= options.camMotion.speed;
+        // camera.position.x = Math.round(camera.position.x * 100) / 100;
+
+        if (Math.round(camera.position.y * 1000) / 1000 < options.camMotion.target.y) camera.position.y += options.camMotion.speed;
+        else if (Math.round(camera.position.y * 1000) / 1000 > options.camMotion.target.y) camera.position.y -= options.camMotion.speed;
+        // camera.position.z = Math.round(camera.position.z * 100) / 100;
+
+        if (Math.round(camera.position.z * 1000) / 1000 < options.camMotion.target.z) camera.position.z += options.camMotion.speed;
+        else if (Math.round(camera.position.z * 1000) / 1000 > options.camMotion.target.z) camera.position.z -= options.camMotion.speed;
+        // camera.position.z = Math.round(camera.position.z * 100) / 100;
+    }
+
+    if (options.flashlight) {
+        f.position.set(camera.position.x, camera.position.y, camera.position.z);
+    }
+    else {
+        f.position.set(0, 0, 0);
+    }
 
     //force the camera to look at the earth
     camera.lookAt(earth.position.x, earth.position.y, earth.position.z);

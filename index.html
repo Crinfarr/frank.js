@@ -9,21 +9,20 @@
 </head>
 
 <body>
-    <!-- type 2 -->
-    <script src='js/three.js'></script>
-    <script src='js/frank.js'></script>
+    <script src='/js/three.js'></script>
+    <script src='/js/frank.js'></script>
     <div hidden class='console' id='log'>
         <div class='closebutton' onclick="toggleHide('log', 'showConsole')">×</div>
     </div>
-    <div hidden class='controls' id='options' style="height: auto;">
+    <div class='controls' id='options' style="height: auto;">
         <div class="closebutton" onclick="toggleHide('options', 'showOptions')">×</div>
         <h1 style="color: aqua;">Controls</h1>
         <label>
             Texture Resolution:
             <select name='trez' id='trez'>
-                <option value="2k" selected>2K textures</option>
-                <option value="4k">4k textures</option>
-                <option value="8k">8k textures</option>
+                <option value="2k" selected>2K</option>
+                <option value="4k">4k</option>
+                <option value="8k">8k</option>
             </select>
         </label>
         <br />
@@ -41,16 +40,39 @@
         <label>
             Disable moon orbit
             <input type="checkbox" id='moonorbit' onchange="
-                let e = document.getElementById('moonorbit')
+                let e = document.getElementById('moonorbit');
                 options.orbits.sun[1] = !e.checked;
+            ">
+        </label>
+        <br />
+        <label>
+            Disable moon
+            <input checked type="checkbox" id="disablemoon" onchange="
+                let e = document.getElementById('disablemoon');
+                if (e.checked) {
+                    scene.remove(moon);
+                    scene.remove(l);
+                }
+                else {
+                    scene.add(moon);
+                    scene.add(l);
+                }
             ">
         </label>
         <br />
         <label>
             Disable camera orbit
             <input type="checkbox" id="camorbit" onchange="
-                let e = document.getElementById('camorbit')
+                let e = document.getElementById('camorbit');
                 options.orbits.cam[1] = !e.checked;
+            ">
+        </label>
+        <br />
+        <label>
+            Enable camera light
+            <input checked type="checkbox" id="flash" onchange="
+                let e = document.getElementById('flash');
+                options.flashlight = e.checked;
             ">
         </label>
         <button class='apply' id='reload'>Reload sim</button>
@@ -61,10 +83,12 @@
     left: 30vw;
     bottom: 5px;">
         <div class='closebutton' onclick="toggleHide('story', 'showStory')">×</div>
-        <img class="portrait">
-        <div class="dialog">
+        <img class="portrait" id='portrait'>
+        <div class="dialog" id='dialog' style="width:25vw; height: 22vh">
 
         </div>
+        <button class="storycontrols forward" id='next'>Next</button>
+        <button class="storycontrols backward" id='previous'>Previous</button>
     </div>
     <div class='windowchooser' style="width: 25vw; height: auto;">
         <div class="minimizebutton" style="left: 5px; background-color: blue;">⚙</div>
@@ -85,7 +109,7 @@
         <div id='choosercontent'>
             <h1 style="color: aqua;">Show Windows</h1>
             <label>
-                <input type="checkbox" id='showOptions'>
+                <input checked type="checkbox" id='showOptions'>
                 Options
             </label>
             <label>
@@ -141,7 +165,9 @@
             </label>
         </div>
     </div>
-    <script src='js/ui.js'></script>
+    <script src='/js/ui.js'></script>
+    <script src="/js/story.js"></script>
+    <script src="/js/frankenstein.js"></script>
 </body>
 
 </html>
