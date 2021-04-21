@@ -63,7 +63,13 @@ const frankenstein = new story([
     },
     {
         location: [0.1, 2, 2],
-        line: 'Victor grew up part of a distinguished family in Geneva, an only child save his "more than sister."'
+        line: 'Victor grew up part of a distinguished family in Geneva, an only child save his "more than sister" Elizabeth.'
+    },
+    {
+        location: [0.125, 2, 2],
+        line: `Elizabeth was the Milanian child of an absent noble and a mother who died in childbirth. <br/>
+        She is described only in a positive light, no matter what the scenario may be.<br/>
+        a "present" for Victor, an angel for her family, someone who everyone loved.`
     }
 
 ]);
