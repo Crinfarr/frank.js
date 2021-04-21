@@ -24,9 +24,9 @@ var options = {
     camMotion: {
         enabled: true,
         target: {
-            x: 3,
-            y: 3,
-            z: 3
+            x: 0,
+            y: 2.5,
+            z: 2
         },
         speed: 0.75 / 30
     },
