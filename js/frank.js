@@ -8,6 +8,32 @@ document.body.appendChild(renderer.domElement);
 
 
 var options = {
+    default: {
+        grids: {
+            rect: false,
+            radi: false,
+            axes: false
+        },
+        lights: {
+            sun: true,
+            dev: false
+        },
+        orbits: {
+            sun: [0, true],//[deg/s, enabled]
+            cam: [0, true]
+        },
+        camMotion: {
+            enabled: true,
+            target: {
+                x: 0,
+                y: 2.5,
+                z: 2
+            },
+            speed: 0.75 / 30
+        },
+        flashlight: true,
+        rez: '2k'
+    },
     grids: {
         rect: false,
         radi: false,

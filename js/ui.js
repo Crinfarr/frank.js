@@ -1,19 +1,4 @@
-//change orbit speeds on slider move
-document.getElementById('moonspeed').addEventListener('input', (ev) => {
-    document.getElementById('moonlabel').innerText = document.getElementById('moonspeed').value;
-    options.orbits.sun[0] = document.getElementById('moonspeed').value;
-});
-document.getElementById('camspeed').addEventListener('input', (ev) => {
-    document.getElementById('camlabel').innerText = document.getElementById('camspeed').value;
-    options.orbits.cam[0] = document.getElementById('camspeed').value;
-});
-
-//set texture resolution on dropdown close
-document.getElementById('trez').addEventListener('change', (ev) => {
-    options.rez = document.getElementById('trez').value;
-    console.log(document.getElementById('trez').value);
-    loadMats();
-});
+///ALL UI FUNCTIONS GO HERE
 
 //add console to div output
 //thanks stackoverflow
@@ -35,25 +20,63 @@ document.getElementById('trez').addEventListener('change', (ev) => {
     };
 })();
 
+function toggleHide(element, box) {
+    e = document.getElementById(element);
+    b = document.getElementById(box);
+    e.hidden = !element.hidden;
+    b.checked = !b.checked;
+}
+
+//set frame zero portrait
+document.body.onload = () => {
+    showdialog('portrait', 'dialog', frankenstein.getStoryLine().line, frankenstein.getStoryLine().avatar);
+};
+
+//orbit listeners
+document.getElementById('moonspeed').addEventListener('input', (ev) => {
+    document.getElementById('moonlabel').innerText = document.getElementById('moonspeed').value;
+    options.orbits.sun[0] = document.getElementById('moonspeed').value;
+});
+document.getElementById('camspeed').addEventListener('input', (ev) => {
+    document.getElementById('camlabel').innerText = document.getElementById('camspeed').value;
+    options.orbits.cam[0] = document.getElementById('camspeed').value;
+});
+document.getElementById('moonorbit').addEventListener('change', (ev) => {
+    let e = document.getElementById('moonorbit');
+    options.orbits.sun[1] = !e.checked;
+});
+document.getElementById('camorbit').addEventListener('change', (ev) => {
+    let e = document.getElementById('camorbit');
+    options.orbits.cam[1] = !e.checked;
+});
+
+//add basic sim manipulation
+document.getElementById('disablemoon').addEventListener('change', (ev) => {
+    let e = document.getElementById('disablemoon');
+    if (e.checked) {
+        scene.remove(moon);
+        scene.remove(l);
+    }
+    else {
+        scene.add(moon);
+        scene.add(l);
+    }
+});
+document.getElementById('flash').addEventListener('change', (ev) => {
+    let e = document.getElementById('flash');
+    options.flashlight = e.checked;
+});
+
+//set texture resolution on dropdown close
+document.getElementById('trez').addEventListener('change', (ev) => {
+    options.rez = document.getElementById('trez').value;
+    console.log(document.getElementById('trez').value);
+    loadMats();
+});
+
 //add reload button
 document.getElementById('reload').addEventListener('click', (ev) => {
-    options = {
-        grids: {
-            rect: false,
-            radi: false,
-            axes: false
-        },
-        lights: {
-            sun: true,
-            dev: false
-        },
-        orbits: {
-            sun: 0,
-            cam: 0
-        },
-        camorbit: false,
-        rez: '2k'
-    };
+    options = options.default;
     console.log('reset options');
 
     document.getElementById('trez').value = '2k';
@@ -69,7 +92,7 @@ document.getElementById('reload').addEventListener('click', (ev) => {
     loadMats();
 });
 
-//add checkbox listeners
+//add window checkbox listeners
 document.getElementById('showOptions').addEventListener('change', (ev) => {
     let e = document.getElementById('showOptions');
     if (!e.checked) {
@@ -98,14 +121,25 @@ document.getElementById('showStory').addEventListener('change', (ev) => {
     }
 });
 
-function toggleHide(element, box) {
-    e = document.getElementById(element);
-    b = document.getElementById(box);
-    e.hidden = !element.hidden;
-    b.checked = !b.checked;
-}
+//add grid checkbox listeners
+document.getElementById('rad').addEventListener('change', (ev) => {
+    let e = document.getElementById('rad');
+    options.grids.radi = e.checked;
+    updateGrid();
+});
+document.getElementById('rad').addEventListener('change', (ev) => {
+    let e = document.getElementById('sqr');
+    options.grids.rect = e.checked;
+    updateGrid();
+});
+document.getElementById('axes').addEventListener('change', (ev) => {
+    let e = document.getElementById('axes');
+    options.grids.axes = e.checked;
+    updateGrid();
+});
 
-//add storybox resizing
+
+//add storybox movement
 document.getElementById('storypos').addEventListener('change', () => {
     switch (document.getElementById('storypos').value) {
         case 'top':
@@ -124,5 +158,65 @@ document.getElementById('storypos').addEventListener('change', () => {
             console.log('wtf?');
             console.log(document.getElementById('storypos'));
             break;
+    }
+});
+document.getElementById('next').addEventListener('click', () => {
+    options.orbits.cam[1] = false;
+    document.getElementById('camorbit').checked = true;
+    frankenstein.nextLine();
+    showdialog('portrait', 'dialog', frankenstein.getStoryLine().line, frankenstein.getStoryLine().avatar);
+    [x, y, z] = frankenstein.getStoryLine().location;
+    options.camMotion.target = {
+        x: x,
+        y: y,
+        z: z
+    };
+    options.camMotion.enabled = true;
+    camera.lookAt(0, 0, 0);
+});
+document.getElementById('previous').addEventListener('click', () => {
+    options.orbits.cam[1] = false;
+    frankenstein.previousLine();
+    showdialog('portrait', 'dialog', frankenstein.getStoryLine().line, frankenstein.getStoryLine().avatar);
+    [x, y, z] = frankenstein.getStoryLine().location;
+    options.camMotion.target = {
+        x: x,
+        y: y,
+        z: z
+    };
+    options.camMotion.enabled = true;
+    camera.lookAt(0, 0, 0);
+});
+//and arrow key control
+document.addEventListener('keydown', (ev) => {
+    switch (ev.key) {
+        case 'ArrowLeft':
+            options.orbits.cam[1] = false;
+            frankenstein.previousLine();
+            showdialog('portrait', 'dialog', frankenstein.getStoryLine().line, frankenstein.getStoryLine().avatar);
+            [x, y, z] = frankenstein.getStoryLine().location;
+            options.camMotion.target = {
+                x: x,
+                y: y,
+                z: z
+            };
+            options.camMotion.enabled = true;
+            camera.lookAt(0, 0, 0);
+            break;
+        case 'ArrowRight':
+            options.orbits.cam[1] = false;
+            document.getElementById('camorbit').checked = true;
+            frankenstein.nextLine();
+            showdialog('portrait', 'dialog', frankenstein.getStoryLine().line, frankenstein.getStoryLine().avatar);
+            [x, y, z] = frankenstein.getStoryLine().location;
+            options.camMotion.target = {
+                x: x,
+                y: y,
+                z: z
+            };
+            options.camMotion.enabled = true;
+            camera.lookAt(0, 0, 0);
+            break;
+        default: break;
     }
 });

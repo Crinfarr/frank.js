@@ -39,41 +39,22 @@
         <p></p>
         <label>
             Disable moon orbit
-            <input type="checkbox" id='moonorbit' onchange="
-                let e = document.getElementById('moonorbit');
-                options.orbits.sun[1] = !e.checked;
-            ">
+            <input type="checkbox" id='moonorbit'>
         </label>
         <br />
         <label>
             Disable moon
-            <input checked type="checkbox" id="disablemoon" onchange="
-                let e = document.getElementById('disablemoon');
-                if (e.checked) {
-                    scene.remove(moon);
-                    scene.remove(l);
-                }
-                else {
-                    scene.add(moon);
-                    scene.add(l);
-                }
-            ">
+            <input checked type="checkbox" id="disablemoon">
         </label>
         <br />
         <label>
             Disable camera orbit
-            <input type="checkbox" id="camorbit" onchange="
-                let e = document.getElementById('camorbit');
-                options.orbits.cam[1] = !e.checked;
-            ">
+            <input type="checkbox" id="camorbit">
         </label>
         <br />
         <label>
             Enable camera light
-            <input checked type="checkbox" id="flash" onchange="
-                let e = document.getElementById('flash');
-                options.flashlight = e.checked;
-            ">
+            <input checked type="checkbox" id="flash">
         </label>
         <button class='apply' id='reload'>Reload sim</button>
     </div>
@@ -138,29 +119,17 @@
             </b>
             <br />
             <label>
-                <input type="checkbox" id='sqr' onchange="
-                        let e = document.getElementById('sqr');
-                        options.grids.rect = e.checked;
-                        updateGrid();
-                    ">
+                <input type="checkbox" id='sqr'>
                 Square Grid
             </label>
             <br />
             <label>
-                <input type="checkbox" id='rad' onchange="
-                        let e = document.getElementById('rad');
-                        options.grids.radi = e.checked;
-                        updateGrid();
-                    ">
+                <input type="checkbox" id='rad'>
                 Radian Grid
             </label>
             <br />
             <label>
-                <input type="checkbox" id='axes' onchange="
-                        let e = document.getElementById('axes');
-                        options.grids.axes = e.checked;
-                        updateGrid();
-                    ">
+                <input type="checkbox" id='axes'>
                 Axes
             </label>
         </div>

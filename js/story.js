@@ -1,12 +1,3 @@
-// const report = [
-//     {
-//         avatar: '',
-//         location: [0, 0, 0],
-//         line: '',
-//         delay: 0
-//     }
-// ];
-
 class story {
     constructor(report) {
         this.story = report;
@@ -21,4 +12,9 @@ class story {
     getStoryLine(n = this.line) {
         return this.story[n];
     }
+}
+
+function showdialog(imgID, boxID, text, imgsrc = 'src/default.png') {
+    document.getElementById(imgID).src = imgsrc;
+    document.getElementById(boxID).innerHTML = text.toString();
 }
