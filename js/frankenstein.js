@@ -10,6 +10,7 @@ const frankenstein = new story([
         p.p.s at least try it, I spent like 20 minutes making it work right.<p>\n</p>
         p.p.p.s all images taken from the first page of google search results because I am lazy.`
     },
+    //c.0
     {
         avatar: 'walton',
         location: [0.6, 2.3, 1.1],
@@ -58,6 +59,7 @@ const frankenstein = new story([
         location: [0.2, 3.2, 0.2],
         line: 'This stranger is Dr. Victor Frankenstein, and to get to this point we must first rewind several hundred miles.'
     },
+    //c.1
     {
         location: [0.1, 2, 2],
         line: 'Victor grew up part of a distinguished family in Geneva, an only child save his "more than sister" Elizabeth.'
@@ -71,6 +73,7 @@ const frankenstein = new story([
     {
         line: "More of a pet than a child."
     },
+    //c.2
     {
         location: [0.1, 2, 2],
         avatar: 'drfrank',
@@ -91,17 +94,69 @@ const frankenstein = new story([
     {
         line: "this fascinated young victor, who would hold the memories of electricity and lightning in his mind for years to come."
     },
+    //c.3
     {
         avatar: 'drfrank',
         line: "When I had attained the age of seventeen, my parents resolved that I should become a student at the university of Ingolstadt."
     },
     {
-        line: "(a major university at the time.)"
+        line: "(a major university in germany.)"
     },
     {
-
+        avatar: 'drfrank',
+        line: "My departure was therefore fixed at an early date; but before the day resolved upon could arrive, the first misfortune of my life occurred—an omen, as it were, of my future misery."
+    },
+    {
+        line: "Victor's mother, after helping his 'more than sister' through the scarlet fever, died of it herself."
+    },
+    {
+        avatar: 'drfrank',
+        line: "She died calmly; and her countenance expressed affection even in death. I need not describe the feelings of those whose dearest ties are rent by that most irreparable evil; the void that presents itself to the soul; and the despair that is exhibited on the countenance."
+    },
+    {
+        avatar: 'drfrank',
+        line: 'My departure for Ingolstadt, which had been deferred by these events, was now again determined upon. I obtained from my father a respite of some weeks. It appeared to me sacrilege so soon to leave the repose, akin to death, of the house of mourning, and to rush into the thick of life.'
+    },
+    {
+        avatar: 'drfrank',
+        line: "I was new to sorrow, but it did not the less alarm me. I was unwilling to quit the sight of those that remained to me; and, above all, I desired to see my sweet Elizabeth in some degree consoled."
+    },
+    {
+        line: "On the way to Ingolstadt and in the following days, Victor reflected on his future.  He would have to make his own way in the following months without his friends and family."
+    },
+    {
+        avatar: "drfrank",
+        line: "I ardently desired the acquisition of knowledge. I had often, when at home, thought it hard to remain during my youth cooped up in one place, and had longed to enter the world, and take my station among other human beings. Now my desires were complied with, and it would, indeed, have been folly to repent."
+    },
+    {
+        avatar: 'drfrank',
+        line: "Partly from curiosity, and partly from idleness, I went into the lecturing room, which M. Waldman entered shortly after.<br/>"
+    },
+    {
+        avatar: 'waldman',
+        line: "The ancient teachers of this science promised impossibilities, and performed nothing. The modern masters promise very little; they know that metals cannot be transmuted, and that the elixir of life is a chimera. But these philosophers, whose hands seem only made to dabble in dirt, and their eyes to pore over the microscope or crucible, have indeed performed miracles."
+    },
+    {
+        avatar: 'waldman',
+        line: "The modern masters promise very little; they know that metals cannot be transmuted, and that the elixir of life is a chimera."
+    },
+    {
+        avatar: 'waldman',
+        line: "But these philosophers, whose hands seem only made to dabble in dirt, and their eyes to pore over the microscope or crucible, have indeed performed miracles."
+    },
+    {
+        avatar: 'waldman',
+        line: "They penetrate into the recesses of nature, and show how she works in her hiding places.<br/> They ascend into the heavens: they have discovered how the blood circulates, and the nature of the air we breathe.<br/> They have acquired new and almost unlimited powers; they can command the thunders of heaven, mimic the earthquake, and even mock the invisible world with its own shadows."
+    },
+    {
+        avatar: 'drfrank',
+        line: "Such were the professor’s words—rather let me say such the words of fate, enounced to destroy me. As he went on, I felt as if my soul were grappling with a palpable enemy; one by one the various keys were touched which formed the mechanism of my being: chord after chord was sounded, and soon my mind was filled with one thought, one conception, one purpose."
+    },
+    {
+        avatar: 'drfrank',
+        line: "So much has been done, exclaimed the soul of Frankenstein—more, far more, will I achieve: treading in the steps already marked, I will pioneer a new way, explore unknown powers, and unfold to the world the deepest mysteries of creation."
     }
-
+    //c4
 ]);
 
 //TODO:

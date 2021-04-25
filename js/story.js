@@ -14,7 +14,7 @@ class story {
     }
 }
 
-function showdialog(imgID, boxID, text, imgsrc = 'src/default.png') {
-    document.getElementById(imgID).src = imgsrc;
+function showdialog(imgID, boxID, text, imgsrc = 'default') {
+    document.getElementById(imgID).src = `src/${imgsrc}.jpg`;
     document.getElementById(boxID).innerHTML = text.toString();
 }
