@@ -32,6 +32,22 @@ document.body.onload = () => {
     showdialog('portrait', 'dialog', frankenstein.getStoryLine().line, frankenstein.getStoryLine().avatar);
 };
 
+//window settings minimize button that I spent too goddamn long on
+document.getElementById('minimizebutton').addEventListener('click', (ev) => {
+    let e = document.getElementById('choosercontent');
+    let ex = e.parentElement;
+    e.hidden = !e.hidden;
+    ex.style.height = (ex.style.height === '3vh') ? '25vh' : '3vh';
+    ex.style.width = (ex.style.width === '5vw') ? '25vw' : '5vw';
+    if (e.hidden) {
+        ex.style.backgroundColor = 'blue';
+    }
+    else {
+        ex.style.backgroundColor = 'black';
+    }
+    document.getElementById('minimizebutton').innerText = (document.getElementById('minimizebutton').innerText === '🗖') ? '🗕' : '🗖';
+});
+
 //orbit listeners
 document.getElementById('moonspeed').addEventListener('input', (ev) => {
     document.getElementById('moonlabel').innerText = document.getElementById('moonspeed').value;
@@ -165,7 +181,7 @@ document.getElementById('next').addEventListener('click', () => {
     document.getElementById('camorbit').checked = true;
     frankenstein.nextLine();
     showdialog('portrait', 'dialog', frankenstein.getStoryLine().line, frankenstein.getStoryLine().avatar);
-    [x, y, z] = frankenstein.getStoryLine().location;
+    ([x, y, z] = frankenstein.getStoryLine().location).catch(() => console.log);
     options.camMotion.target = {
         x: x,
         y: y,

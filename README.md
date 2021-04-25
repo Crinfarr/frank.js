@@ -4,10 +4,12 @@
 
 
 Resources used:
-[THREE.js by mrDoob](https://threejs.org/)
+* [THREE.js by mrDoob](https://threejs.org/)
+
 [![MIT license](https://img.shields.io/badge/License-MIT-blue.svg)](https://lbesson.mit-license.org/)
 
-[Solar Textures from SolarSystemScope](https://www.solarsystemscope.com/textures/)
+* [Solar Textures from SolarSystemScope](https://www.solarsystemscope.com/textures/)
+
 [![CC-BY license](https://img.shields.io/badge/License-CC--BY-blue.svg)](https://creativecommons.org/licenses/by-nd/4.0)
 
-[Console by ArunPJohny](http://jsfiddle.net/arunpjohny/mGDet/)
+* [Console by ArunPJohny](http://jsfiddle.net/arunpjohny/mGDet/)

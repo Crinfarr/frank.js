@@ -70,6 +70,12 @@ const frankenstein = new story([
         line: `Elizabeth was the Milanian child of an absent noble and a mother who died in childbirth. <br/>
         She is described only in a positive light, no matter what the scenario may be.<br/>
         a "present" for Victor, an angel for her family, someone who everyone loved.`
+    },
+    {
+        line: "More of a pet than a child."
+    },
+    {
+
     }
 
 ]);

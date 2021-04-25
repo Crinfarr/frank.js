@@ -73,20 +73,7 @@
     </div>
     <div class='windowchooser' style="width: 25vw; height: auto;">
         <div class="minimizebutton" style="left: 5px; background-color: blue;">⚙</div>
-        <div class="minimizebutton" id='minimizebutton' onclick="
-            let e = document.getElementById('choosercontent');
-            let ex = e.parentElement;
-            e.hidden = !e.hidden;
-            ex.style.height = (ex.style.height === '3vh')?'25vh':'3vh';
-            ex.style.width = (ex.style.width === '5vw')?'25vw':'5vw';
-            if (e.hidden) {
-                ex.style.backgroundColor = 'blue'
-            }
-            else {
-                ex.style.backgroundColor = 'black'
-            }
-            document.getElementById('minimizebutton').innerText = (document.getElementById('minimizebutton').innerText === '🗖')?'🗕':'🗖';
-            ">🗕</div>
+        <div class="minimizebutton" id='minimizebutton'>🗕</div>
         <div id='choosercontent'>
             <h1 style="color: aqua;">Show Windows</h1>
             <label>
