@@ -118,10 +118,12 @@ const frankenstein = new story([
         line: 'My departure for Ingolstadt, which had been deferred by these events, was now again determined upon. I obtained from my father a respite of some weeks. It appeared to me sacrilege so soon to leave the repose, akin to death, of the house of mourning, and to rush into the thick of life.'
     },
     {
+        location: [0.1, 2, 2],
         avatar: 'drfrank',
         line: "I was new to sorrow, but it did not the less alarm me. I was unwilling to quit the sight of those that remained to me; and, above all, I desired to see my sweet Elizabeth in some degree consoled."
     },
     {
+        location: [0.4, 2.1, 1.9],
         line: "On the way to Ingolstadt and in the following days, Victor reflected on his future.  He would have to make his own way in the following months without his friends and family."
     },
     {
@@ -155,8 +157,34 @@ const frankenstein = new story([
     {
         avatar: 'drfrank',
         line: "So much has been done, exclaimed the soul of Frankenstein—more, far more, will I achieve: treading in the steps already marked, I will pioneer a new way, explore unknown powers, and unfold to the world the deepest mysteries of creation."
+    },
+    //c.4
+    {
+        line: "Frankenstein's studies from this point grew exponentially.  He had the support of his teachers and peers <!--what's that like-->and soon became a veritable master of his craft."
+    },
+    {
+        line: "Here, however, his studies took a darker turn."
+    },
+    {
+        avatar: 'drfrank',
+        line: "To examine the causes of life, we must first have recourse to death. I became acquainted with the science of anatomy: but this was not sufficient; I must also observe the natural decay and corruption of the human body. In my education my father had taken the greatest precautions that my mind should be impressed with no supernatural horrors. I do not ever remember to have trembled at a tale of superstition, or to have feared the apparition of a spirit. Darkness had no effect upon my fancy; and a churchyard was to me merely the receptacle of bodies deprived of life, which, from being the seat of beauty and strength, had become food for the worm."
+    },
+    {
+        avatar: 'drfrank',
+        line: "My attention was fixed upon every object the most insupportable to the delicacy of the human feelings. I saw how the fine form of man was degraded and wasted; I beheld the corruption of death succeed to the blooming cheek of life; I saw how the worm inherited the wonders of the eye and brain."
+    },
+    {
+        line: "a <b>much</b> darker turn."
+    },
+    {
+        avatar: 'drfrank',
+        line: "One secret which I alone possessed was the hope to which I had dedicated myself; and the moon gazed on my midnight labours, while, with unrelaxed and breathless eagerness, I pursued nature to her hiding-places. Who shall conceive the horrors of my secret toil, as I dabbled among the unhallowed damps of the grave, or tortured the living animal to animate the lifeless clay? My limbs now tremble and my eyes swim with the remembrance; but then a resistless, and almost frantic, impulse urged me forward; I seemed to have lost all soul or sensation but for this one pursuit."
+    },
+    {
+        avatar: 'drfrank',
+        line: "Sometimes I grew alarmed at the wreck I perceived that I had become; the energy of my purpose alone sustained me: my labours would soon end, and I believed that exercise and amusement would then drive away incipient disease; and I promised myself both of these when my creation should be completed."
     }
-    //c4
+    //c.5
 ]);
 
 //TODO:
